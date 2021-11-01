@@ -1,0 +1,9 @@
+<div class="js-alert-message">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-js alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show animated shake"
+             role="alert">
+               <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>{{ message|safe }}</div>
+    {% endfor %}
+{% endif %}
+</div>
