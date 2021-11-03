@@ -45,6 +45,7 @@ class TeacherDetail(DetailView):
     model = Teacher
 
 
+@method_decorator(login_required, name='dispatch')
 class TeacherCreateView(CreateView):
     model = Teacher
     form_class = TeacherForm
@@ -54,6 +55,8 @@ class TeacherCreateView(CreateView):
         context['subject_list'] = Subject.objects.all()
         return context
 
+
+@method_decorator(login_required, name='dispatch')
 class TeacherUpdateView(UpdateView):
     model = Teacher
     form_class = TeacherForm
@@ -62,7 +65,6 @@ class TeacherUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['subject_list'] = Subject.objects.all()
         return context
-
 
 
 @method_decorator(login_required, name='dispatch')
