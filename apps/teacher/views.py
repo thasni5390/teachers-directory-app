@@ -55,6 +55,10 @@ class TeacherCreateView(CreateView):
         context['subject_list'] = Subject.objects.all()
         return context
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
 
 @method_decorator(login_required, name='dispatch')
 class TeacherUpdateView(UpdateView):
