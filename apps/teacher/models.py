@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 class Subject(models.Model):
@@ -34,4 +35,7 @@ class Teacher(models.Model):
 
     def __str__(self):
         return ' '.join(filter(None, [self.first_name, self.last_name]))
+
+    def get_absolute_url(self):
+        return reverse('teacher_detail', kwargs={'pk': self.pk})
 

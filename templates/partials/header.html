@@ -1,16 +1,25 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">School X</a>
+  <a class="navbar-brand" href="#"><i class="fas fa-solid fa-school mx-2"></i>School X</a>
   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item {% if request.resolver_match.url_name == "teachers_list" %}active{% endif %}">
-        <a class="nav-link" href="#">Directory<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'teachers_list' %}">Directory<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item {% if request.resolver_match.url_name == "teachers_bulk_upload" %}active{% endif %}">
-        <a class="nav-link" href="#">Upload Data</a>
+      {% if user.is_authenticated %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'teacher_create' %}">Add teacher</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'teachers_bulk_upload' %}">Upload bulk data</a>
+        </div>
       </li>
+      {% endif %}
     </ul>
     <ul class="navbar-nav ml-auto">
     {% if user.is_authenticated %}

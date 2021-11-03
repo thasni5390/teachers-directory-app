@@ -1,0 +1,76 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="card">
+            <div class="card-header"><h5 class="card-title">Add entry</h5></div>
+            <div class="card-body">
+                <div class="row">
+                    {% for field in form %}
+                        {% if field.name != "subjects" %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}"
+                                           class="control-label">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="error_placer text-danger mt-2">
+                                            <small>{{ field.errors.as_text }}</small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-12">
+                        <label for="{{ form.subjects.id_for_label }}"
+                               class="control-label">{{ form.subjects.label }}</label>
+                        <select class="form-control" multiple="multiple" name="{{ form.subjects.name }}" id="{{ form.subjects.id_for_label }}">
+                            {% for item in subject_list %}
+                                <option value="{{ item.name }}" {% if item.name in form.subjects.value %} selected{% endif %}>{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if form.subjects.errors %}
+                            <div class="error_placer text-danger mt-2">
+                                <small>{{ form.subjects.errors.as_text }}</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="float-right mr-2">
+                    <button type="submit"
+                            class="d-sm-inline-block btn-block btn  btn-info btn-icon-split shadow-sm">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-paper-plane"></i>
+                            </span>
+                        <span class="text">Submit</span>
+                    </button>
+                </div>
+                <div class="float-right mr-2">
+                    <a href="{% url 'teachers_list' %}"
+                       class="d-sm-inline-block btn-block btn  btn-secondary btn-icon-split shadow-sm">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-arrow-left"></i>
+                            </span>
+                        <span class="text">Go back</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block header %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#{{ form.subjects.id_for_label }}").select2({
+          tags: true
+        });
+    })
+    </script>
+{% endblock %}

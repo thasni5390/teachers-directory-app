@@ -1,0 +1,42 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img class="img-thumbnail" style="width: 250px" src="{% if object.profile_picture %}{{ object.profile_picture.url }}{% else %}{% static 'images/placeholder.jpeg' %}{% endif %}">
+            <div class="mt-2">
+               <a href="{% url 'teacher_update' object.pk%}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">First Name</th>
+                  <td>{{ object.first_name }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Last Name</th>
+                  <td>{{ object.last_name }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email Address</th>
+                  <td>{{ object.email }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Phone Number</th>
+                  <td>{{ object.phone_number }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Room Number</th>
+                  <td>{{ object.room_number }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Subjects Taught</th>
+                  <td>{{ object.subjects.all|join:", " }}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
