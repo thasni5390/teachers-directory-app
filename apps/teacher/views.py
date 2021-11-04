@@ -45,15 +45,18 @@ class TeacherDetail(DetailView):
     model = Teacher
 
 
-@method_decorator(login_required, name='dispatch')
-class TeacherCreateView(CreateView):
-    model = Teacher
-    form_class = TeacherForm
+class CustomSubjectMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['subject_list'] = Subject.objects.all()
         return context
+
+
+@method_decorator(login_required, name='dispatch')
+class TeacherCreateView(CustomSubjectMixin, CreateView):
+    model = Teacher
+    form_class = TeacherForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -61,14 +64,9 @@ class TeacherCreateView(CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class TeacherUpdateView(UpdateView):
+class TeacherUpdateView(CustomSubjectMixin, UpdateView):
     model = Teacher
     form_class = TeacherForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['subject_list'] = Subject.objects.all()
-        return context
 
 
 @method_decorator(login_required, name='dispatch')
